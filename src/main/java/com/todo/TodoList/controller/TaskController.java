@@ -6,6 +6,7 @@ import com.todo.TodoList.model.User;
 import com.todo.TodoList.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +30,22 @@ public class TaskController {
         return taskService.listAllTasks();
     }
 
-    @GetMapping("/users")
+    @GetMapping("/tasks/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAllUsers() {
-        return userService.listAllUsers();
+    public ResponseEntity<Task> getTaskById(@PathVariable (value = "id") Long id) {
+        return taskService.findTaskById(id);
     }
+
+    @PutMapping("/updatetasks/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<Task> getTaskById(@PathVariable (value = "id") Long id, @RequestBody Task task) {
+        return taskService.updateTaskById(task,id);
+    }
+
+    @DeleteMapping("/deletetask/{id}")
+    public void deleteTaskById(@PathVariable long id) {
+        taskService.deleteTask(id);
+    }
+
+
 }
